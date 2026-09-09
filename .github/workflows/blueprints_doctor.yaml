@@ -1,0 +1,14 @@
+name: Blueprints Doctor
+
+permissions:
+  contents: read
+  issues: write
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  doctor:
+    uses: motherduckdb/motherduck-blueprints/.github/workflows/reusable_blueprints_doctor.yaml@v0.5.0

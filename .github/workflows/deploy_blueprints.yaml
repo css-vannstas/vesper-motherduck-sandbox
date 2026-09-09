@@ -1,0 +1,75 @@
+# md-blueprints-environment-model: v1
+name: Deploy Blueprints
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Deployment target.
+        required: true
+        default: prod
+        type: choice
+        options:
+          - preview
+          - prod
+      branch:
+        description: Preview branch name for manual preview deploys.
+        required: false
+        type: string
+      blueprints:
+        description: Optional comma-separated blueprint names. Defaults to all.
+        required: false
+        type: string
+  push:
+    branches:
+      - main
+    paths:
+      - "motherduck.yml"
+      - "blueprints/**"
+      - "flights/**"
+      - "dives/**"
+      - "guides/**"
+      - "roles/**"
+      - "projects/**"
+      - "schemas/**"
+      - "src/**"
+      - "tools/**"
+      - "scripts/**"
+      - "templates/**"
+      - "action.yml"
+      - "pyproject.toml"
+      - ".github/workflows/deploy_blueprints.yaml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "motherduck.yml"
+      - "blueprints/**"
+      - "flights/**"
+      - "dives/**"
+      - "guides/**"
+      - "roles/**"
+      - "projects/**"
+      - "schemas/**"
+      - "src/**"
+      - "tools/**"
+      - "scripts/**"
+      - "templates/**"
+      - "action.yml"
+      - "pyproject.toml"
+      - ".github/workflows/deploy_blueprints.yaml"
+  release:
+    types:
+      - published
+
+jobs:
+  deploy:
+    uses: motherduckdb/motherduck-blueprints/.github/workflows/reusable_deploy_blueprints.yaml@v0.5.0
+    with:
+      target: ${{ inputs.target || 'prod' }}
+      branch: ${{ inputs.branch || '' }}
+      blueprints: ${{ inputs.blueprints || '' }}
