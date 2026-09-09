@@ -12,4 +12,5 @@ on:
 
 jobs:
   cleanup:
-    uses: motherduckdb/motherduck-blueprints/.github/workflows/reusable_cleanup_preview_blueprints.yaml@v0.5.0
+    uses: ./.github/workflows/reusable_cleanup_preview_blueprints.yaml
+    secrets: inherit
