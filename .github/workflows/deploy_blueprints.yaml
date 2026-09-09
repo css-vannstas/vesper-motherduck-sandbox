@@ -42,7 +42,7 @@ on:
       - "templates/**"
       - "action.yml"
       - "pyproject.toml"
-      - ".github/workflows/deploy_blueprints.yaml"
+      - ".github/workflows/reusable_deploy_blueprints.yaml"
   pull_request:
     branches:
       - main
@@ -61,14 +61,14 @@ on:
       - "templates/**"
       - "action.yml"
       - "pyproject.toml"
-      - ".github/workflows/deploy_blueprints.yaml"
+      - ".github/workflows/reusable_deploy_blueprints.yaml"
   release:
     types:
       - published
 
 jobs:
   deploy:
-    uses: motherduckdb/motherduck-blueprints/.github/workflows/reusable_deploy_blueprints.yaml@v0.5.0
+    uses: ./.github/workflows/reusable_deploy_blueprints.yaml
     secrets: inherit
     with:
       target: ${{ inputs.target || 'prod' }}
