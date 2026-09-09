@@ -1,0 +1,42 @@
+schemaVersion: 1
+requiredCliVersion: ">=0.4.0"
+repository:
+  name: vesper-motherduck-sandbox
+
+include:
+  - flights/**/blueprint.yml
+  - dives/**/blueprint.yml
+  - guides/**/blueprint.yml
+  - roles/**/blueprint.yml
+  - projects/**/blueprint.yml
+  - blueprints/**/blueprint.yml
+
+variables:
+  preview_suffix:
+    description: Branch-scoped suffix for preview data resources.
+    default: _preview_${target.branch_slug}
+
+targets:
+  preview:
+    mode: preview
+    default: true
+    environment: motherduck-sandbox
+    deployment:
+      tokenEnvVar: MOTHERDUCK_TOKEN
+      identity: Vesper MotherDuck user account
+    policies:
+      disableSchedules: true
+      cleanup: true
+      requireBranchSlugInDataResources: true
+    variables:
+      share_visibility: HIDDEN
+
+  prod:
+    mode: production
+    environment: motherduck-sandbox
+    deployment:
+      tokenEnvVar: MOTHERDUCK_TOKEN
+      identity: Vesper MotherDuck user account
+    variables:
+      preview_suffix: ""
+      share_visibility: DISCOVERABLE
