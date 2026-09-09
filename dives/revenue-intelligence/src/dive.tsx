@@ -2,9 +2,7 @@ import { useState } from "react";
 import { useSQLQuery, useDiveState } from "@motherduck/react-sql-query";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-export const REQUIRED_DATABASES = [
-    { type: "share", path: "md:_share/css/f5883a16-09c7-4db3-9256-7d1ae853ba7d", alias: "css" },
-];
+export const REQUIRED_DATABASES = [{ type: "share", path: "md:_share/css/f5883a16-09c7-4db3-9256-7d1ae853ba7d", alias: "css" }];
 
 const N = (v) => (v != null ? Number(v) : 0);
 
