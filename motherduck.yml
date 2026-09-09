@@ -39,4 +39,4 @@ targets:
       identity: Vesper MotherDuck user account
     variables:
       preview_suffix: ""
-      share_visibility: DISCOVERABLE
+      share_visibility: HIDDEN
