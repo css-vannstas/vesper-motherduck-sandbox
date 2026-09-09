@@ -1,0 +1,19 @@
+schemaVersion: 1
+name: revenue-intelligence
+title: Revenue Intelligence Diagnostic
+description: Faithful diagnostic copy of Revenue Intelligence version 46.
+
+resources:
+  dives:
+    diagnostic:
+      title: Revenue Intelligence Diagnostic
+      source: src/dive.tsx
+      description: Diagnostic copy of the existing Revenue Intelligence Dive, running under Vesper's MotherDuck identity.
+      status: draft
+      requiredResources:
+        - url: md:_share/css/f5883a16-09c7-4db3-9256-7d1ae853ba7d
+          alias: css
+      targets:
+        preview:
+          title: Revenue Intelligence Diagnostic:${target.branch} (Preview)
+          status: draft
