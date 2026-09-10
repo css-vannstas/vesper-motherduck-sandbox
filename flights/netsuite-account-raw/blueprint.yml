@@ -1,0 +1,79 @@
+schemaVersion: 1
+name: netsuite-account-raw
+title: NetSuite Account Raw Ingest
+description: >
+  Extracts NetSuite Account records into the shared raw.source_record /
+  raw.source_load envelope for the revenue pipeline POC. Raw layer only —
+  1:1 row-level JSON capture, no aggregation, no staging/mart logic. This
+  package also owns the shared raw database's share registration so preview
+  branches get automatic cleanup (see README.md).
+
+variables:
+  database:
+    description: Shared raw database for the NetSuite revenue POC, written to by all netsuite-*-raw Flights.
+    default: netsuite_revenue_poc
+  schema:
+    description: Raw schema holding the shared source_record / source_load tables.
+    default: raw
+  source_object:
+    default: Account
+  natural_key_columns:
+    description: Comma-separated natural key column(s) used to build source_record_id and to merge.
+    default: id
+  lastmodified_column:
+    default: lastmodifieddate
+  lookback_days:
+    description: Steady-state incremental rolling lookback window, in days.
+    default: "7"
+  backfill_mode:
+    description: "'true' runs a one-time full historical backfill (no date bound — Account is a dimension) instead of the steady-state incremental window."
+    default: "false"
+
+resources:
+  shares:
+    raw:
+      # Registers the shared raw database with Blueprints purely so preview
+      # branches get automatic cleanup. Never discovered/consumed externally.
+      name: netsuite-revenue-poc-raw
+      database: ${var.database}
+      access: RESTRICTED
+      visibility: HIDDEN
+      cleanup: true
+      dropDatabase: true
+      targets:
+        preview:
+          name: netsuite-revenue-poc-raw${var.preview_suffix}
+          database: ${var.database}${var.preview_suffix}
+          access: RESTRICTED
+          visibility: HIDDEN
+          dropDatabase: true
+
+  flights:
+    loader:
+      name: netsuite-account-raw
+      source: src/flight.py
+      requirements: src/requirements.txt
+      scheduleCron: 0 6 * * 1
+      maxRuntimeSec: 900
+      runOnDeploy: true
+      waitForRun: success
+      secrets:
+        - NETSUITE_ACCOUNT_ID
+        - NETSUITE_CONSUMER_KEY
+        - NETSUITE_CONSUMER_SECRET
+        - NETSUITE_TOKEN_ID
+        - NETSUITE_TOKEN_SECRET
+      config:
+        database: ${resources.shares.raw.database}
+        schema: ${var.schema}
+        source_object: ${var.source_object}
+        source_system: netsuite
+        natural_key_columns: ${var.natural_key_columns}
+        lastmodified_column: ${var.lastmodified_column}
+        lookback_days: ${var.lookback_days}
+        backfill_mode: ${var.backfill_mode}
+      targets:
+        preview:
+          name: netsuite-account-raw:${target.branch} (Preview)
+          scheduleCron: ""
+          runOnDeploy: true
