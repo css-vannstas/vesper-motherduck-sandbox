@@ -11,4 +11,4 @@ on:
 
 jobs:
   doctor:
-    uses: motherduckdb/motherduck-blueprints/.github/workflows/reusable_blueprints_doctor.yaml@v0.5.0
+    uses: motherduckdb/motherduck-blueprints/.github/workflows/reusable_blueprints_doctor.yaml@v0.6.0
