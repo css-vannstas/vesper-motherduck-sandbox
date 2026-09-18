@@ -300,6 +300,32 @@ def record_hash(row: dict[str, Any]) -> str:
     canonical = json.dumps(row, sort_keys=True, default=str)
     return hashlib.md5(canonical.encode("utf-8")).hexdigest()
 
+def parse_netsuite_timestamp(value: Any) -> dt.datetime | None:
+    """Convert NetSuite date strings into timezone-aware Python datetimes."""
+    if value is None or value == "":
+        return None
+
+    if isinstance(value, dt.datetime):
+        if value.tzinfo is None:
+            return value.replace(tzinfo=dt.timezone.utc)
+        return value
+
+    text = str(value).strip()
+
+    formats = (
+        "%m/%d/%Y %I:%M:%S %p",  # 9/18/2026 2:35:17 PM
+        "%m/%d/%Y %H:%M:%S",     # 9/18/2026 14:35:17
+        "%m/%d/%Y",              # 9/18/2026
+    )
+
+    for timestamp_format in formats:
+        try:
+            parsed = dt.datetime.strptime(text, timestamp_format)
+            return parsed.replace(tzinfo=dt.timezone.utc)
+        except ValueError:
+            continue
+
+    raise ValueError(f"Unsupported NetSuite timestamp format: {value!r}")
 
 def merge_source_records(
     con: duckdb.DuckDBPyConnection,
@@ -398,7 +424,7 @@ def main() -> None:
                 SOURCE_SYSTEM,
                 SOURCE_OBJECT,
                 build_source_record_id(row),
-                row.get(LASTMODIFIED_COLUMN),
+                parse_netsuite_timestamp(row.get(LASTMODIFIED_COLUMN)),
                 extracted_at,
                 False,
                 record_hash(row),
