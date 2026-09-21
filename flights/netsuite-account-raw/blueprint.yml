@@ -4,9 +4,7 @@ title: NetSuite Account Raw Ingest
 description: >
   Extracts NetSuite Account records into the shared raw.source_record /
   raw.source_load envelope for the revenue pipeline POC. Raw layer only —
-  1:1 row-level JSON capture, no aggregation, no staging/mart logic. This
-  package also owns the shared raw database's share registration so preview
-  branches get automatic cleanup (see README.md).
+  1:1 row-level JSON capture, no aggregation, no staging/mart logic.
 
 variables:
   database:
@@ -30,24 +28,6 @@ variables:
     default: "false"
 
 resources:
-  shares:
-    raw:
-      # Registers the shared raw database with Blueprints purely so preview
-      # branches get automatic cleanup. Never discovered/consumed externally.
-      name: netsuite-revenue-poc-raw
-      database: ${var.database}
-      access: RESTRICTED
-      visibility: HIDDEN
-      cleanup: true
-      dropDatabase: true
-      targets:
-        preview:
-          name: netsuite-revenue-poc-raw${var.preview_suffix}
-          database: ${var.database}${var.preview_suffix}
-          access: RESTRICTED
-          visibility: HIDDEN
-          dropDatabase: true
-
   flights:
     loader:
       name: netsuite-account-raw
@@ -60,7 +40,7 @@ resources:
       secrets:
         - netsuite_tba
       config:
-        database: ${resources.shares.raw.database}
+        database: ${var.database}
         schema: ${var.schema}
         source_object: ${var.source_object}
         source_system: netsuite
@@ -73,3 +53,5 @@ resources:
           name: netsuite-account-raw:${target.branch} (Preview)
           scheduleCron: ""
           runOnDeploy: true
+          config:
+            database: ${var.database}${var.preview_suffix}
