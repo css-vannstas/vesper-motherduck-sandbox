@@ -1,3 +1,16 @@
+"""
+Step 2: Identify section headers and compile region / country tables.
+
+Input: "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_words.csv"
+
+Output: 
+  "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_territory_lookup_review.csv"
+  "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_territory_lookup.csv",
+    which is a dependency of the "parse_*_territories.py" scripts.
+
+
+"""
+
 import csv
 from pathlib import Path
 import argparse

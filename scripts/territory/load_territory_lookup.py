@@ -1,3 +1,5 @@
+"""Loads territory assignments into MotherDuck"""
+
 import argparse
 import csv
 from datetime import date

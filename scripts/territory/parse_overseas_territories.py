@@ -1,6 +1,13 @@
 """
-Parse the Overseas territory tables on page 2 into rows containing rep, region, and country.
+Step 6: Execute: Parse the overseas territory tables on page 2 into rows containing rep, region, and country.
 Write a review file for anything that cannot be confidently interpreted.
+
+Input: "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_territory_lookup.csv"
+
+Output: 
+  "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_overseas_review.csv"
+  "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_overseas_rows.csv",
+    which is a dependency of "run_territory_pipeline.py" and "load_territory_lookup.py"
 """
 
 import argparse

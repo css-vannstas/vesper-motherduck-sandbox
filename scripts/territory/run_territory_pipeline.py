@@ -1,4 +1,4 @@
-"""Run the territory PDF workflow for one source file."""
+"""Prepares CSV files from PDF for review and loading."""
 
 import argparse
 import csv
