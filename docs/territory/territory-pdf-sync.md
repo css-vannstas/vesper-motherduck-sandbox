@@ -60,8 +60,9 @@ Reconcile source entries to parsed entries; check range expansion, missing reps,
 
 ## Operation
 
-- CLI command to run the process:
-- Required parameters:
-- Output location:
-- Who reviews exceptions:
-- How to load into MotherDuck:
+- CLI command to run the process: TBD during implementation.
+- Required parameters: source `PDF` or `XLSX` file; effective date verified against the file's update note.
+- Output location: `.imports/territory` during development. Production location TBD.
+- Who reviews exceptions: Austin Farance
+- How to load into MotherDuck: parse into staging, validate and review proposed changes, then publish approved assignment versions. Exact flight and table names TBD.
+- Reprocessing: running the same source file again must not create duplicate assignments. The process must detect and ignore previously processed files, or update the existing assignments if the effective date has changed.
