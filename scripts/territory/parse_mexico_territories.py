@@ -1,6 +1,13 @@
 """
-Parse the Mexico territory table on page 1 into rows containing rep, state, and ABBR.
+Step 4: Execute: Parse the MX territory tables on page 1 into rows containing rep, state, and abbr.
 Write a review file for anything that cannot be confidently interpreted.
+
+Input: "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_territory_lookup.csv"
+
+Output: 
+  "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_mx_review.csv"
+  "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_mx_rows.csv",
+    which is a dependency of "run_territory_pipeline.py" and "load_territory_lookup.py"
 """
 
 import argparse

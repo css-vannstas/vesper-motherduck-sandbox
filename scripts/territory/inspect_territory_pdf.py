@@ -1,11 +1,13 @@
 """
-Inspect text and positions in a territory PDF.
-
+Step 1: Inspect text and positions in a territory PDF.
 Extracts each word with its page number and bounding-box coordinates,
 then writes a CSV beside the input PDF. Use this diagnostic output to
 understand the PDF layout before writing table-parsing rules.
 
-This script does not create territory assignments or update MotherDuck.
+Input: territory PDF ("YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED.pdf")
+
+Output: "YYYY-MM-DD-TERRITORY-CURRENT-CONDENSED_words.csv", 
+  which is a dependency of the "build_territory_lookup.py" script.
 """
 
 import argparse
