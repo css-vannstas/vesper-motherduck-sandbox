@@ -1,0 +1,24 @@
+name: Plan CSS Territory Flight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    environment: css-service-staging
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Plan territory-sync
+        uses: motherduckdb/motherduck-blueprints@v0.5.0
+        env:
+          MOTHERDUCK_TOKEN: ${{ secrets.MOTHERDUCK_TOKEN }}
+        with:
+          command: plan
+          root: css-blueprints
+          target: prod
+          blueprints: territory-sync
