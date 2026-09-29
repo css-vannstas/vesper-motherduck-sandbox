@@ -1,0 +1,28 @@
+schemaVersion: 1
+requiredCliVersion: ">=0.4.0"
+
+repository:
+  name: vesper-motherduck-sandbox-css
+
+include:
+  - flights/**/blueprint.yml
+
+targets:
+  preview:
+    mode: preview
+    default: true
+    environment: css-service-staging
+    deployment:
+      tokenEnvVar: MOTHERDUCK_TOKEN
+      identity: CSS MotherDuck service account
+    policies:
+      disableSchedules: true
+      cleanup: true
+      requireBranchSlugInDataResources: true
+
+  prod:
+    mode: production
+    environment: css-service-staging
+    deployment:
+      tokenEnvVar: MOTHERDUCK_TOKEN
+      identity: CSS MotherDuck service account

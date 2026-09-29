@@ -6,7 +6,7 @@ description: Apply a dated territory lookup snapshot to assignment history.
 resources:
   flights:
     sync:
-      name: territory-sync-sandbox
+      name: territory-sync
       source: src/flight.py
       requirements: src/requirements.txt
       runOnDeploy: false
